@@ -344,24 +344,8 @@ class NewsManager {
     }
 
     loadNews() {
-        // Primero intentar cargar noticias personalizadas desde localStorage
-        const customNews = localStorage.getItem(CONFIG.STORAGE_KEYS.CUSTOM_NEWS);
-        if (customNews) {
-            try {
-                const parsed = JSON.parse(customNews);
-                // Combinar noticias personalizadas con las por defecto
-                const defaultNews = this.getMockNews();
-                // Filtrar noticias por defecto que no estén ya en las personalizadas
-                const filteredDefault = defaultNews.filter(d => 
-                    !parsed.some(p => p.link === d.link)
-                );
-                this.allNews = [...parsed, ...filteredDefault];
-            } catch (e) {
-                this.allNews = this.getMockNews();
-            }
-        } else {
-            this.allNews = this.getMockNews();
-        }
+        // Cargar noticias por defecto (visibles para todos)
+        this.allNews = this.getMockNews();
         this.renderNews();
     }
 
@@ -387,7 +371,7 @@ class NewsManager {
                 excerpt: "Estudio conjunto entre USIL y el Banco Central de Reserva analiza los costos de transporte de los trabajadores peruanos...",
                 date: "2026-02-04",
                 category: "Investigación",
-                image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=500&h=300&fit=crop",
+                image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=500&h=300&fit=crop",
                 link: "https://blogs.usil.edu.pe/facultad-ciencias-empresariales/investigacion-usil-bcrp-cuanto-cuesta-llegar-al-trabajo-en-peru"
             },
             {
@@ -396,7 +380,7 @@ class NewsManager {
                 excerpt: "La universidad es sede del tour educativo de Binance sobre blockchain y criptomonedas en América Latina...",
                 date: "2026-02-03",
                 category: "Tecnología",
-                image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&h=300&fit=crop",
+                image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=500&h=300&fit=crop",
                 link: "https://blogs.usil.edu.pe/novedades/usil-inicia-en-latinoamerica-el-binance-university-tour-2026"
             }
         ];
