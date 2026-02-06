@@ -344,15 +344,16 @@ class NewsManager {
 
     // Limpiar noticias que tienen errores o imágenes rotas
     cleanOldNews() {
+        // Limpiar localStorage
         const customNews = localStorage.getItem(CONFIG.STORAGE_KEYS.CUSTOM_NEWS);
         if (customNews) {
             try {
                 const parsed = JSON.parse(customNews);
-                // Filtrar noticias con títulos de error
                 const cleaned = parsed.filter(n => 
-                    n.title && 
+                    n && n.title && 
                     !n.title.toLowerCase().includes("error") &&
-                    n.title.length > 5
+                    n.title.trim().length > 5 &&
+                    n.category && n.excerpt
                 );
                 if (cleaned.length !== parsed.length) {
                     if (cleaned.length > 0) {
@@ -365,6 +366,27 @@ class NewsManager {
                 localStorage.removeItem(CONFIG.STORAGE_KEYS.CUSTOM_NEWS);
             }
         }
+
+        // Limpiar Firebase si hay noticias inválidas
+        if (firebaseDB) {
+            firebaseDB.ref('news').once('value', (snapshot) => {
+                const firebaseNews = snapshot.val();
+                if (firebaseNews && Array.isArray(firebaseNews)) {
+                    const validNews = firebaseNews.filter(news => 
+                        news && 
+                        news.title && 
+                        news.title.trim().length > 3 &&
+                        news.category &&
+                        news.excerpt
+                    );
+                    // Si hay menos noticias válidas, actualizar Firebase
+                    if (validNews.length !== firebaseNews.length) {
+                        firebaseDB.ref('news').set(validNews);
+                        console.log("🧹 Limpieza de Firebase: eliminadas " + (firebaseNews.length - validNews.length) + " noticias inválidas");
+                    }
+                }
+            });
+        }
     }
 
     loadNews() {
@@ -373,7 +395,14 @@ class NewsManager {
             firebaseDB.ref('news').once('value', (snapshot) => {
                 const firebaseNews = snapshot.val();
                 if (firebaseNews && Array.isArray(firebaseNews)) {
-                    this.allNews = firebaseNews;
+                    // Filtrar noticias válidas (que tengan título y contenido)
+                    this.allNews = firebaseNews.filter(news => 
+                        news && 
+                        news.title && 
+                        news.title.trim().length > 3 &&
+                        news.category &&
+                        news.excerpt
+                    );
                 } else {
                     this.allNews = [];
                 }
