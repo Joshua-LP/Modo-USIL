@@ -1672,7 +1672,11 @@ body {
 
 .footer-logo {
     height: 50px;
-    filter: brightness(0) invert(1);
+    width: auto;
+    object-fit: contain;
+    background: white;
+    padding: 8px 12px;
+    border-radius: 8px;
 }
 
 .social-links {
