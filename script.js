@@ -16,22 +16,17 @@ const CONFIG = {
         "https://corsproxy.io/?",
         "https://api.codetabs.com/v1/proxy?quest="
     ],
-    // Configuración de Firebase - DEBES CAMBIAR ESTOS VALORES
-    // Para obtener tu configuración:
-    // 1. Ve a https://console.firebase.google.com/
-    // 2. Crea un proyecto nuevo (gratis)
-    // 3. Ve a Project Settings > Your apps > Add Firebase to your web app
-    // 4. Copia la configuración aquí
+    // Configuración de Firebase
     FIREBASE_CONFIG: {
-        apiKey: "TU_API_KEY_AQUI",
-        authDomain: "TU_PROJECT_ID.firebaseapp.com",
-        databaseURL: "https://TU_PROJECT_ID-default-rtdb.firebaseio.com",
-        projectId: "TU_PROJECT_ID",
-        storageBucket: "TU_PROJECT_ID.appspot.com",
-        messagingSenderId: "TU_MESSAGING_ID",
-        appId: "TU_APP_ID"
+        apiKey: "AIzaSyDW1hRvDWzqBGIdq3FV1jqP5wzk8x4C924",
+        authDomain: "usil-portal.firebaseapp.com",
+        databaseURL: "https://usil-portal-default-rtdb.firebaseio.com",
+        projectId: "usil-portal",
+        storageBucket: "usil-portal.firebasestorage.app",
+        messagingSenderId: "1001454215249",
+        appId: "1:1001454215249:web:43c31682b089d85a0b1870"
     },
-    USE_FIREBASE: false // Cambia a true cuando hayas configurado Firebase
+    USE_FIREBASE: true // Firebase activado - Las noticias se comparten globalmente
 };
 
 // Inicializar Firebase
