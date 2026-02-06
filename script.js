@@ -416,10 +416,12 @@ class NewsManager {
     renderNews() {
         if (!this.newsContainer) return;
 
-        const newsHTML = this.allNews.map(news => 
-            "<article class=\"news-card\">" +
+        const newsHTML = this.allNews.map(news => {
+            // Validar que la imagen tenga una URL válida
+            const imageUrl = (news.image && news.image.length > 10) ? news.image : 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=500&h=300&fit=crop';
+            return "<article class=\"news-card\">" +
                 "<div class=\"news-image\">" +
-                    "<img src=\"" + news.image + "\" alt=\"" + news.title + "\" loading=\"lazy\" onerror=\"this.src='https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=500&h=300&fit=crop'\">" +
+                    "<img src=\"" + imageUrl + "\" alt=\"" + news.title + "\" loading=\"lazy\" onerror=\"this.classList.add('img-error'); this.src='https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=500&h=300&fit=crop'\">" +
                     "<span class=\"news-badge\">" + news.category + "</span>" +
                 "</div>" +
                 "<div class=\"news-content\">" +
@@ -433,8 +435,8 @@ class NewsManager {
                         "<i class=\"fas fa-arrow-right\"></i>" +
                     "</a>" +
                 "</div>" +
-            "</article>"
-        ).join("");
+            "</article>";
+        }).join("");
 
         this.newsContainer.innerHTML = newsHTML;
     }
