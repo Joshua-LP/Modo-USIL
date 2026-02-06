@@ -15,8 +15,37 @@ const CONFIG = {
         "https://api.allorigins.win/raw?url=",
         "https://corsproxy.io/?",
         "https://api.codetabs.com/v1/proxy?quest="
-    ]
+    ],
+    // Configuración de Firebase - DEBES CAMBIAR ESTOS VALORES
+    // Para obtener tu configuración:
+    // 1. Ve a https://console.firebase.google.com/
+    // 2. Crea un proyecto nuevo (gratis)
+    // 3. Ve a Project Settings > Your apps > Add Firebase to your web app
+    // 4. Copia la configuración aquí
+    FIREBASE_CONFIG: {
+        apiKey: "TU_API_KEY_AQUI",
+        authDomain: "TU_PROJECT_ID.firebaseapp.com",
+        databaseURL: "https://TU_PROJECT_ID-default-rtdb.firebaseio.com",
+        projectId: "TU_PROJECT_ID",
+        storageBucket: "TU_PROJECT_ID.appspot.com",
+        messagingSenderId: "TU_MESSAGING_ID",
+        appId: "TU_APP_ID"
+    },
+    USE_FIREBASE: false // Cambia a true cuando hayas configurado Firebase
 };
+
+// Inicializar Firebase
+let firebaseDB = null;
+if (CONFIG.USE_FIREBASE && typeof firebase !== 'undefined') {
+    try {
+        firebase.initializeApp(CONFIG.FIREBASE_CONFIG);
+        firebaseDB = firebase.database();
+        console.log("✅ Firebase inicializado correctamente");
+    } catch (error) {
+        console.error("❌ Error iniciando Firebase:", error);
+        console.log("📝 Usando localStorage como respaldo");
+    }
+}
 
 // ============================================
 // Gestion de Usuario con Foto Editable
@@ -344,8 +373,38 @@ class NewsManager {
     }
 
     loadNews() {
-        // Cargar noticias por defecto (visibles para todos)
-        this.allNews = this.getMockNews();
+        if (firebaseDB) {
+            // Cargar desde Firebase (datos globales)
+            firebaseDB.ref('news').once('value', (snapshot) => {
+                const firebaseNews = snapshot.val();
+                if (firebaseNews && Array.isArray(firebaseNews)) {
+                    this.allNews = firebaseNews;
+                } else {
+                    this.allNews = [];
+                }
+                this.renderNews();
+            }).catch((error) => {
+                console.error("Error cargando noticias de Firebase:", error);
+                // Fallback a localStorage
+                this.loadNewsFromLocalStorage();
+            });
+        } else {
+            // Usar localStorage como respaldo
+            this.loadNewsFromLocalStorage();
+        }
+    }
+
+    loadNewsFromLocalStorage() {
+        const customNews = localStorage.getItem(CONFIG.STORAGE_KEYS.CUSTOM_NEWS);
+        let custom = [];
+        if (customNews) {
+            try {
+                custom = JSON.parse(customNews);
+            } catch (e) {
+                custom = [];
+            }
+        }
+        this.allNews = [...custom, ...this.getMockNews()];
         this.renderNews();
     }
 
@@ -355,35 +414,8 @@ class NewsManager {
     }
 
     getMockNews() {
-        return [
-            {
-                id: 1,
-                title: "Docentes de la USIL se especializan en Biotecnología y Genética Oncológica",
-                excerpt: "Profesores de la universidad participan en programa de especialización en biotecnología y genética aplicada a la oncología...",
-                date: "2026-02-05",
-                category: "Novedades",
-                image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=500&h=300&fit=crop",
-                link: "https://blogs.usil.edu.pe/novedades/docentes-de-la-usil-se-especializan-en-biotecnologia-y-genetica-oncologica"
-            },
-            {
-                id: 2,
-                title: "Investigación USIL-BCRP: ¿Cuánto cuesta llegar al trabajo en Perú?",
-                excerpt: "Estudio conjunto entre USIL y el Banco Central de Reserva analiza los costos de transporte de los trabajadores peruanos...",
-                date: "2026-02-04",
-                category: "Investigación",
-                image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=500&h=300&fit=crop",
-                link: "https://blogs.usil.edu.pe/facultad-ciencias-empresariales/investigacion-usil-bcrp-cuanto-cuesta-llegar-al-trabajo-en-peru"
-            },
-            {
-                id: 3,
-                title: "USIL inicia en Latinoamérica el Binance University Tour 2026",
-                excerpt: "La universidad es sede del tour educativo de Binance sobre blockchain y criptomonedas en América Latina...",
-                date: "2026-02-03",
-                category: "Tecnología",
-                image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=500&h=300&fit=crop",
-                link: "https://blogs.usil.edu.pe/novedades/usil-inicia-en-latinoamerica-el-binance-university-tour-2026"
-            }
-        ];
+        // No hay noticias predeterminadas - solo se mostrarán las agregadas por el administrador
+        return [];
     }
 
     renderNews() {
@@ -881,31 +913,67 @@ class NewsAdminManager {
     }
 
     removeNews(index) {
-        this.pendingNews.splice(index, 1);
-        this.renderAddedNewsList();
+        if (confirm("¿Eliminar esta noticia?")) {
+            this.pendingNews.splice(index, 1);
+            this.renderAddedNewsList();
+            // Guardar cambios automáticamente (en Firebase o localStorage)
+            this.saveToStorage();
+            // Refrescar noticias en la página
+            newsManager.refresh();
+        }
     }
 
     clearAllNews() {
         if (confirm("¿Estás seguro de eliminar todas las noticias?")) {
             this.pendingNews = [];
-            localStorage.removeItem(CONFIG.STORAGE_KEYS.CUSTOM_NEWS);
+            this.saveToStorage();
             this.renderAddedNewsList();
             newsManager.refresh();
         }
     }
 
     saveChanges() {
-        if (this.pendingNews.length > 0) {
-            localStorage.setItem(CONFIG.STORAGE_KEYS.CUSTOM_NEWS, JSON.stringify(this.pendingNews));
-        } else {
-            localStorage.removeItem(CONFIG.STORAGE_KEYS.CUSTOM_NEWS);
-        }
-        
+        this.saveToStorage();
+
         // Refrescar noticias en la página
         newsManager.refresh();
-        
+
         this.closeModal(this.newsModal);
         alert("Cambios guardados correctamente");
+    }
+
+    // Guardar en Firebase o localStorage
+    saveToStorage() {
+        if (firebaseDB) {
+            // Guardar en Firebase (global para todos los usuarios)
+            firebaseDB.ref('news').set(this.pendingNews)
+                .then(() => {
+                    console.log("✅ Noticias guardadas en Firebase");
+                    // También guardar en localStorage como respaldo
+                    if (this.pendingNews.length > 0) {
+                        localStorage.setItem(CONFIG.STORAGE_KEYS.CUSTOM_NEWS, JSON.stringify(this.pendingNews));
+                    } else {
+                        localStorage.removeItem(CONFIG.STORAGE_KEYS.CUSTOM_NEWS);
+                    }
+                })
+                .catch((error) => {
+                    console.error("❌ Error guardando en Firebase:", error);
+                    alert("Error al guardar. Se guardó solo localmente.");
+                    // Guardar en localStorage como respaldo
+                    if (this.pendingNews.length > 0) {
+                        localStorage.setItem(CONFIG.STORAGE_KEYS.CUSTOM_NEWS, JSON.stringify(this.pendingNews));
+                    } else {
+                        localStorage.removeItem(CONFIG.STORAGE_KEYS.CUSTOM_NEWS);
+                    }
+                });
+        } else {
+            // Guardar solo en localStorage (solo local)
+            if (this.pendingNews.length > 0) {
+                localStorage.setItem(CONFIG.STORAGE_KEYS.CUSTOM_NEWS, JSON.stringify(this.pendingNews));
+            } else {
+                localStorage.removeItem(CONFIG.STORAGE_KEYS.CUSTOM_NEWS);
+            }
+        }
     }
 }
 
@@ -915,35 +983,55 @@ class NewsAdminManager {
 class ServicesManager {
     constructor() {
         this.cards = document.querySelectorAll(".service-card");
+        this.emergencyModal = document.getElementById("emergencyModal");
         this.init();
     }
 
     init() {
         this.cards.forEach(card => {
-            card.addEventListener("click", () => this.handleCardClick(card));
+            card.addEventListener("click", (e) => {
+                // No hacer nada si es el card de talentin (es un enlace)
+                if (card.dataset.service === "talentin") {
+                    return;
+                }
+                e.preventDefault();
+                this.handleCardClick(card);
+            });
+        });
+
+        // Cerrar modal de emergencia
+        document.getElementById("closeEmergencyModal")?.addEventListener("click", () => {
+            this.closeEmergencyModal();
+        });
+
+        this.emergencyModal?.addEventListener("click", (e) => {
+            if (e.target === this.emergencyModal) {
+                this.closeEmergencyModal();
+            }
         });
     }
 
     handleCardClick(card) {
         const service = card.dataset.service;
-        
+
         switch(service) {
-            case "talentin":
-                // El link se maneja directamente en el HTML como enlace
-                break;
             case "news":
                 document.getElementById("newsSection")?.scrollIntoView({ behavior: "smooth" });
                 break;
             case "emergency":
-                this.showEmergencyContacts();
+                this.showEmergencyModal();
                 break;
             default:
                 console.log("Servicio seleccionado: " + service);
         }
     }
 
-    showEmergencyContacts() {
-        alert("Contactos de emergencia:\n\nSeguridad: 123-4567\nMesa de Ayuda: 123-4568\nEmergencias: 911");
+    showEmergencyModal() {
+        this.emergencyModal?.classList.add("active");
+    }
+
+    closeEmergencyModal() {
+        this.emergencyModal?.classList.remove("active");
     }
 }
 

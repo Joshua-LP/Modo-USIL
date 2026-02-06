@@ -644,6 +644,203 @@ body {
     max-width: 560px;
 }
 
+.modal-emergency {
+    max-width: 700px;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+/* ============================================
+   Modal Contactos de Emergencia
+   ============================================ */
+.emergency-contacts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+}
+
+.emergency-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    background: var(--white);
+    border-radius: 16px;
+    border-left: 5px solid;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+}
+
+.emergency-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.05;
+    transition: var(--transition);
+}
+
+.emergency-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.emergency-card:hover::before {
+    opacity: 0.1;
+}
+
+/* Colores por tipo de emergencia */
+.emergency-critical {
+    border-left-color: #EF4444;
+}
+
+.emergency-critical::before {
+    background: linear-gradient(135deg, #EF4444, #DC2626);
+}
+
+.emergency-critical .emergency-icon {
+    background: linear-gradient(135deg, #EF4444, #DC2626);
+}
+
+.emergency-security {
+    border-left-color: #3B82F6;
+}
+
+.emergency-security::before {
+    background: linear-gradient(135deg, #3B82F6, #2563EB);
+}
+
+.emergency-security .emergency-icon {
+    background: linear-gradient(135deg, #3B82F6, #2563EB);
+}
+
+.emergency-help {
+    border-left-color: #8B5CF6;
+}
+
+.emergency-help::before {
+    background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+}
+
+.emergency-help .emergency-icon {
+    background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+}
+
+.emergency-info {
+    border-left-color: #10B981;
+}
+
+.emergency-info::before {
+    background: linear-gradient(135deg, #10B981, #059669);
+}
+
+.emergency-info .emergency-icon {
+    background: linear-gradient(135deg, #10B981, #059669);
+}
+
+.emergency-police {
+    border-left-color: #0047BB;
+}
+
+.emergency-police::before {
+    background: linear-gradient(135deg, #0047BB, #002D72);
+}
+
+.emergency-police .emergency-icon {
+    background: linear-gradient(135deg, #0047BB, #002D72);
+}
+
+.emergency-fire {
+    border-left-color: #F59E0B;
+}
+
+.emergency-fire::before {
+    background: linear-gradient(135deg, #F59E0B, #D97706);
+}
+
+.emergency-fire .emergency-icon {
+    background: linear-gradient(135deg, #F59E0B, #D97706);
+}
+
+/* Icono de la emergencia */
+.emergency-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-md);
+    position: relative;
+    z-index: 1;
+}
+
+.emergency-icon i {
+    font-size: 24px;
+    color: var(--white);
+}
+
+/* Información de la emergencia */
+.emergency-info {
+    flex: 1;
+    min-width: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.emergency-info h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+}
+
+.emergency-number {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--primary-blue);
+    margin-bottom: 4px;
+    font-family: 'Courier New', monospace;
+}
+
+.emergency-desc {
+    font-size: 13px;
+    color: var(--dark-gray);
+    margin: 0;
+}
+
+/* Botón de llamar */
+.btn-call {
+    width: 48px;
+    height: 48px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    text-decoration: none;
+    transition: var(--transition-bounce);
+    box-shadow: var(--shadow-sm);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.btn-call:hover {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-call i {
+    font-size: 18px;
+}
+
 /* Input password y url */
 .modal-body input[type="password"],
 .modal-body input[type="url"] {
@@ -1627,6 +1824,52 @@ body {
     .chatbot-window {
         width: calc(100vw - 32px);
         right: -8px;
+    }
+
+    /* Modal de emergencia responsive */
+    .modal-emergency {
+        max-width: 95vw;
+        max-height: 90vh;
+    }
+
+    .emergency-contacts {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .emergency-card {
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .emergency-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .emergency-icon i {
+        font-size: 20px;
+    }
+
+    .emergency-info h4 {
+        font-size: 14px;
+    }
+
+    .emergency-number {
+        font-size: 18px;
+    }
+
+    .emergency-desc {
+        font-size: 12px;
+    }
+
+    .btn-call {
+        width: 42px;
+        height: 42px;
+    }
+
+    .btn-call i {
+        font-size: 16px;
     }
 }
 
