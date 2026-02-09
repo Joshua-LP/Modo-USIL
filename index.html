@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portal Corporativo USIL - Sistema de gestión empresarial">
+    <title>Modo USIL - Portal Corporativo</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="https://d31935m4eumln1.cloudfront.net/wp-content/uploads/2025/10/30190345/usil-30.webp" alt="USIL 30 años" class="logo-30">
+                </div>
+                <nav class="nav">
+                    <a href="#" class="nav-link active">Inicio</a>
+                    <a href="#newsSection" class="nav-link">Noticias</a>
+                    <a href="#talentinSection" class="nav-link">Talentin</a>
+                    <a href="#" class="nav-link">Recursos</a>
+                    <a href="#" class="nav-link">Ayuda</a>
+                </nav>
+                <div class="header-user" id="headerUser">
+                    <img src="" alt="Foto de perfil" id="headerUserPhoto" class="header-user-photo">
+                    <span id="headerUserName">Usuario</span>
+                </div>
+                <button class="btn-menu" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-background">
+            <div class="floating-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+                <div class="shape shape-4"></div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="profile-card glass-effect">
+                    <div class="profile-image-wrapper" id="profileImageWrapper">
+                        <div class="profile-image" id="profileImage">
+                            <img src="" alt="Foto de perfil" id="userPhoto" style="display: none;">
+                            <i class="fas fa-user" id="defaultUserIcon"></i>
+                        </div>
+                        <button class="edit-photo-btn" id="editPhotoBtn" title="Cambiar foto">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                        <input type="file" id="photoInput" accept="image/*" style="display: none;">
+                    </div>
+                    <h1 class="greeting" id="greeting">Hola, <span id="userName">Usuario</span></h1>
+                    <button class="edit-name-btn" id="editNameBtn" title="Editar nombre">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
+                    <p class="subtitle">Bienvenido al Portal Corporativo USIL</p>
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Hoy</span>
+                            <strong id="currentDate">5 Feb 2026</strong>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Hora</span>
+                            <strong id="currentTime">--:--</strong>
+                        </div>
+                    </div>
+                    <button class="btn-primary">
+                        <i class="fas fa-share-alt"></i>
+                        Compartir estatus
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="wave-divider">
+            <svg viewBox="0 0 1440 100" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#f8fafc" d="M0,50 C360,100 720,0 1440,50 L1440,100 L0,100 Z"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Modal para editar nombre -->
+    <div class="modal-overlay" id="editNameModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-edit"></i> Editar Nombre</h3>
+                <button class="modal-close" id="closeNameModal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <label for="newNameInput">Tu nombre:</label>
+                <input type="text" id="newNameInput" placeholder="Ingresa tu nombre" maxlength="50">
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelNameEdit">Cancelar</button>
+                <button class="btn-primary" id="saveNameEdit">
+                    <i class="fas fa-save"></i> Guardar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Grid -->
+    <section class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="title-icon"><i class="fas fa-th-large"></i></span>
+                    Servicios Corporativos
+                </h2>
+                <p class="section-subtitle">Accede a todas las herramientas que necesitas</p>
+            </div>
+            <div class="services-grid">
+                <!-- Noticias de la Empresa -->
+                <div class="service-card" data-service="news">
+                    <div class="service-icon gradient-1">
+                        <i class="fas fa-newspaper"></i>
+                    </div>
+                    <h3>Noticias de la Empresa</h3>
+                    <p>Mantente informado con las últimas actualizaciones corporativas</p>
+                    <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                </div>
+
+                <!-- Noticias Mundiales -->
+                <div class="service-card" data-service="world-news">
+                    <div class="service-icon gradient-2">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Noticias Mundiales</h3>
+                    <p>Actualidad internacional y tendencias globales</p>
+                    <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                </div>
+
+                <!-- Consejos Útiles -->
+                <div class="service-card" data-service="tips">
+                    <div class="service-icon gradient-3">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3>Consejos Útiles</h3>
+                    <p>Tips y recomendaciones para mejorar tu productividad</p>
+                    <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                </div>
+
+                <!-- Talentin - Asistente IA -->
+                <a href="https://teams.microsoft.com/l/app/1d7dcb18-9593-44aa-9a17-6c468c9af1eb?source=app-header-share-entrypoint" target="_blank" class="service-card service-card-featured" data-service="talentin">
+                    <div class="featured-badge">
+                        <i class="fas fa-sparkles"></i> IA
+                    </div>
+                    <div class="service-icon gradient-featured">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>Talentin</h3>
+                    <p>Asistente virtual inteligente en Microsoft Teams</p>
+                    <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                </a>
+
+                <!-- Links -->
+                <div class="service-card" data-service="links">
+                    <div class="service-icon gradient-4">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <h3>Links Útiles</h3>
+                    <p>Accesos rápidos a recursos importantes</p>
+                    <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                </div>
+
+                <!-- Contactos de Emergencia -->
+                <div class="service-card" data-service="emergency">
+                    <div class="service-icon gradient-5">
+                        <i class="fas fa-phone-volume"></i>
+                    </div>
+                    <h3>Contactos de Emergencia</h3>
+                    <p>Números importantes y contactos de ayuda</p>
+                    <div class="card-arrow"><i class="fas fa-arrow-right"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Section (Dynamic) -->
+    <section class="news-section" id="newsSection">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <span class="title-icon"><i class="fas fa-rss"></i></span>
+                    Últimas Noticias
+                </h2>
+                <p class="section-subtitle">Entérate de todo lo que sucede en USIL</p>
+                <button class="admin-news-btn" id="adminNewsBtn" title="Administrar noticias">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+            <div class="news-container">
+                <div class="news-grid" id="newsGrid">
+                    <!-- Las noticias se cargarán dinámicamente -->
+                </div>
+                <button class="btn-load-more" id="loadMoreNews">
+                    <span>Ver más noticias</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Admin Login -->
+    <div class="modal-overlay" id="adminLoginModal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h3><i class="fas fa-lock"></i> Acceso Administrador</h3>
+                <button class="modal-close" id="closeAdminLogin"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <label for="adminPassword">Contraseña:</label>
+                <input type="password" id="adminPassword" placeholder="Ingresa la contraseña">
+                <p class="error-text" id="adminError" style="display: none;">Contraseña incorrecta</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="adminLoginSubmit">
+                    <i class="fas fa-sign-in-alt"></i> Acceder
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Contactos de Emergencia -->
+    <div class="modal-overlay" id="emergencyModal">
+        <div class="modal-content modal-emergency">
+            <div class="modal-header">
+                <h3><i class="fas fa-phone-volume"></i> Contactos de Emergencia</h3>
+                <button class="modal-close" id="closeEmergencyModal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="emergency-contacts">
+                    <div class="emergency-card emergency-critical">
+                        <div class="emergency-icon">
+                            <i class="fas fa-ambulance"></i>
+                        </div>
+                        <div class="emergency-info">
+                            <h4>Emergencias Médicas</h4>
+                            <p class="emergency-number">911</p>
+                            <p class="emergency-desc">Ambulancia y emergencias médicas</p>
+                        </div>
+                        <a href="tel:911" class="btn-call"><i class="fas fa-phone"></i></a>
+                    </div>
+
+                    <div class="emergency-card emergency-security">
+                        <div class="emergency-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="emergency-info">
+                            <h4>Seguridad Campus</h4>
+                            <p class="emergency-number">(01) 317-1000</p>
+                            <p class="emergency-desc">Seguridad y vigilancia 24/7</p>
+                        </div>
+                        <a href="tel:+5113171000" class="btn-call"><i class="fas fa-phone"></i></a>
+                    </div>
+
+                    <div class="emergency-card emergency-help">
+                        <div class="emergency-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <div class="emergency-info">
+                            <h4>Mesa de Ayuda TI</h4>
+                            <p class="emergency-number">(01) 317-1080</p>
+                            <p class="emergency-desc">Soporte técnico e informático</p>
+                        </div>
+                        <a href="tel:+5113171080" class="btn-call"><i class="fas fa-phone"></i></a>
+                    </div>
+
+                    <div class="emergency-card emergency-info">
+                        <div class="emergency-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="emergency-info">
+                            <h4>Información General</h4>
+                            <p class="emergency-number">(01) 317-1000</p>
+                            <p class="emergency-desc">Consultas e información</p>
+                        </div>
+                        <a href="tel:+5113171000" class="btn-call"><i class="fas fa-phone"></i></a>
+                    </div>
+
+                    <div class="emergency-card emergency-police">
+                        <div class="emergency-icon">
+                            <i class="fas fa-building-shield"></i>
+                        </div>
+                        <div class="emergency-info">
+                            <h4>Policía Nacional</h4>
+                            <p class="emergency-number">105</p>
+                            <p class="emergency-desc">Emergencias policiales</p>
+                        </div>
+                        <a href="tel:105" class="btn-call"><i class="fas fa-phone"></i></a>
+                    </div>
+
+                    <div class="emergency-card emergency-fire">
+                        <div class="emergency-icon">
+                            <i class="fas fa-fire-extinguisher"></i>
+                        </div>
+                        <div class="emergency-info">
+                            <h4>Bomberos</h4>
+                            <p class="emergency-number">116</p>
+                            <p class="emergency-desc">Emergencias de incendios</p>
+                        </div>
+                        <a href="tel:116" class="btn-call"><i class="fas fa-phone"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Agregar Noticias -->
+    <div class="modal-overlay" id="addNewsModal">
+        <div class="modal-content modal-medium">
+            <div class="modal-header">
+                <h3><i class="fas fa-newspaper"></i> Administrar Noticias</h3>
+                <button class="modal-close" id="closeAddNews"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="news-url-input">
+                    <label for="newsUrlInput">URL de la noticia (blogs.usil.edu.pe):</label>
+                    <div class="url-input-group">
+                        <input type="url" id="newsUrlInput" placeholder="https://blogs.usil.edu.pe/...">
+                        <button class="btn-add-url" id="addNewsUrl">
+                            <i class="fas fa-plus"></i> Agregar
+                        </button>
+                    </div>
+                </div>
+                <div class="news-preview" id="newsPreview" style="display: none;">
+                    <div class="loading-news" id="loadingNews">
+                        <i class="fas fa-spinner fa-spin"></i> Cargando noticia...
+                    </div>
+                    <div class="preview-card" id="previewCard" style="display: none;"></div>
+                </div>
+                <div class="added-news-list">
+                    <h4><i class="fas fa-list"></i> Noticias agregadas:</h4>
+                    <div id="addedNewsList"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="clearAllNews">
+                    <i class="fas fa-trash"></i> Limpiar todo
+                </button>
+                <button class="btn-primary" id="saveNewsChanges">
+                    <i class="fas fa-save"></i> Guardar cambios
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección Talentin - Asistente IA -->
+    <section class="talentin-section" id="talentinSection">
+        <div class="container">
+            <div class="talentin-content">
+                <div class="talentin-info">
+                    <div class="talentin-badge">
+                        <i class="fas fa-sparkles"></i> Asistente Virtual con IA
+                    </div>
+                    <h2 class="talentin-title">
+                        <span class="talentin-icon"><i class="fas fa-robot"></i></span>
+                        Talentin
+                    </h2>
+                    <p class="talentin-description">
+                        Tu asistente inteligente integrado en Microsoft Teams. Resuelve tus dudas, 
+                        obtén información y recibe soporte personalizado las 24 horas del día.
+                    </p>
+                    <ul class="talentin-features">
+                        <li><i class="fas fa-check-circle"></i> Respuestas instantáneas a tus consultas</li>
+                        <li><i class="fas fa-check-circle"></i> Integración directa con Microsoft Teams</li>
+                        <li><i class="fas fa-check-circle"></i> Disponible 24/7 para ayudarte</li>
+                        <li><i class="fas fa-check-circle"></i> Soporte personalizado con IA</li>
+                    </ul>
+                    <a href="https://teams.microsoft.com/l/app/1d7dcb18-9593-44aa-9a17-6c468c9af1eb?source=app-header-share-entrypoint"
+                       target="_blank"
+                       class="talentin-btn">
+                        <i class="fab fa-microsoft"></i>
+                        Chatear con Talentin en Teams
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+                <div class="talentin-visual">
+                    <div class="talentin-card glass-effect">
+                        <div class="talentin-card-header">
+                            <div class="talentin-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="talentin-status">
+                                <span class="status-name">Talentin</span>
+                                <span class="status-online"><span class="status-dot"></span> En línea</span>
+                            </div>
+                        </div>
+                        <div class="talentin-preview-messages">
+                            <div class="preview-message bot">
+                                <p>¡Hola! 👋 Soy Talentin, tu asistente virtual.</p>
+                            </div>
+                            <div class="preview-message bot">
+                                <p>¿En qué puedo ayudarte hoy?</p>
+                            </div>
+                            <div class="preview-message user">
+                                <p>Necesito información sobre...</p>
+                            </div>
+                        </div>
+                        <div class="talentin-card-footer">
+                            <span><i class="fab fa-microsoft"></i> Microsoft Teams</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-wave">
+            <svg viewBox="0 0 1440 100" xmlns="http://www.w3.org/2000/svg">
+                <path fill="#0047BB" d="M0,50 C360,0 720,100 1440,50 L1440,100 L0,100 Z"></path>
+            </svg>
+        </div>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section footer-brand">
+                    <img src="assets/Logo.png" alt="USIL Logo" class="footer-logo">
+                    <p>Formando líderes con visión global desde 1969</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/usil.peru" class="social-link" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/usil/" class="social-link" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://pe.linkedin.com/school/universidad-san-ignacio-de-loyola" class="social-link" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://www.youtube.com/user/usilpe" class="social-link" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4><i class="fas fa-link"></i> Enlaces Rápidos</h4>
+                    <a href="#">Portal Académico</a>
+                    <a href="#">Biblioteca Virtual</a>
+                    <a href="#">Correo Institucional</a>
+                    <a href="#">Campus Virtual</a>
+                </div>
+                <div class="footer-section">
+                    <h4><i class="fas fa-headset"></i> Soporte</h4>
+                    <a href="#">Mesa de Ayuda</a>
+                    <a href="#">Documentación</a>
+                    <a href="#">FAQ</a>
+                    <a href="#">Contacto</a>
+                </div>
+                <div class="footer-section">
+                    <h4><i class="fas fa-map-marker-alt"></i> Contacto</h4>
+                    <p><i class="fas fa-phone"></i> +51 1 317 1000</p>
+                    <p><i class="fas fa-envelope"></i> info@usil.edu.pe</p>
+                    <p><i class="fas fa-location-dot"></i> La Molina, Lima - Perú</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Universidad San Ignacio de Loyola. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
